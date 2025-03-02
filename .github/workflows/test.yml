@@ -37,7 +37,7 @@ jobs:
         continue-on-error: true
 
       - name: Generate unit test report
-        if: always()
+        if: ${{ github.event.inputs.environment == 'production' }}
         run: |
           coverage xml
         continue-on-error: true

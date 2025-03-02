@@ -38,6 +38,7 @@ jobs:
           coverage report
 
       - name: Generate unit test report
+        if: ${{ github.event.inputs.environment == 'production' }}
         run: |
           coverage xml
 
