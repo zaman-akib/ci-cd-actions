@@ -1,4 +1,4 @@
-### Repo for learning CI/CD with GitHub Actions
+### Repo for learning CI/CD with GitHub Actions 
   - This repo contains a simple python script that 
     - fetches latest commits from a GitHub repository and prints the details.
     - fetches issues from a GitHub repository and prints the details.
