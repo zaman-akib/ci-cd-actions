@@ -24,6 +24,9 @@ def fetch_latest_commit(owner, repo):
         f"Message: {message}\n"
         f"Author: {author}, Date: {date}\n"
     )
+    print(
+        f"Latest Commit sha: {sha}\nMessage: {message}\nAuthor: {author}, Date: {date}\n"
+    )
 
 
 def fetch_issues(owner, repo, page_size):
