@@ -8,15 +8,9 @@ on:
     branches:
       - main
   workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Environment to run the workflow'
-        required: true
-        default: 'development'
 
 jobs:
   lint:
-    if: ${{ github.event.inputs.environment == 'development' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
