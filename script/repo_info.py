@@ -1,6 +1,7 @@
 import requests
 import sys
 
+
 def fetch_latest_commit(owner, repo):
     url = f"https://api.github.com/repos/{owner}/{repo}/commits"
     try:
@@ -14,15 +15,18 @@ def fetch_latest_commit(owner, repo):
 
     commits = response.json()
     latest_commit = commits[0]
-    sha = latest_commit['sha']
-    message = latest_commit['commit']['message']
-    author = latest_commit['commit']['author']['name']
-    date = latest_commit['commit']['author']['date']
-    print(f"Latest Commit sha: {sha}\nMessage: {message}\nAuthor: {author}, Date: {date}\n")
+    sha = latest_commit["sha"]
+    message = latest_commit["commit"]["message"]
+    author = latest_commit["commit"]["author"]["name"]
+    date = latest_commit["commit"]["author"]["date"]
+    print(
+        f"Latest Commit sha: {sha}\nMessage: {message}\nAuthor: {author}, Date: {date}\n"
+    )
+
 
 def fetch_issues(owner, repo, page_size):
     url = f"https://api.github.com/repos/{owner}/{repo}/issues"
-    params = {'state': 'open', 'per_page': page_size}
+    params = {"state": "open", "per_page": page_size}
     issue_count = 0
 
     print(f"{'='*50}\nList of Issues\n{'='*50}")
@@ -43,14 +47,15 @@ def fetch_issues(owner, repo, page_size):
         for issue in issues:
             print(f"Issue: {issue['title']}, Status: {issue['state']}")
 
-        if 'next' in response.links:
-            url = response.links['next']['url']
+        if "next" in response.links:
+            url = response.links["next"]["url"]
         else:
             break
 
+
 def fetch_pull_requests(owner, repo, page_size):
     url = f"https://api.github.com/repos/{owner}/{repo}/pulls"
-    params = {'state': 'open', 'per_page': page_size}
+    params = {"state": "open", "per_page": page_size}
     pr_count = 0
 
     print(f"{'='*50}\nList of Pull Requests\n{'='*50}")
@@ -58,7 +63,9 @@ def fetch_pull_requests(owner, repo, page_size):
     while url:
         response = requests.get(url, params=params)
         if response.status_code != 200:
-            print(f"Error: Unable to fetch pull requests. Status code: {response.status_code}")
+            print(
+                f"Error: Unable to fetch pull requests. Status code: {response.status_code}"
+            )
             sys.exit(1)
 
         pulls = response.json()
@@ -71,7 +78,7 @@ def fetch_pull_requests(owner, repo, page_size):
         for pr in pulls:
             print(f"Pull Request: {pr['title']}, Status: {pr['state']}")
 
-        if 'next' in response.links:
-            url = response.links['next']['url']
+        if "next" in response.links:
+            url = response.links["next"]["url"]
         else:
             break
