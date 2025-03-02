@@ -1,5 +1,10 @@
 FROM python:3.12-slim
-WORKDIR /app
-COPY . .
+
+# install requirements
+COPY requirements.txt /
+WORKDIR /
 RUN pip install --no-cache-dir -r requirements.txt
-CMD ["python", "github-commit-fetcher.py"]
+
+# copy the scripts to workdir
+COPY pipe /
+CMD ["python", "main.py"]
