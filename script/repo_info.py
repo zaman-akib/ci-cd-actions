@@ -3,10 +3,11 @@ import sys
 
 def fetch_latest_commit(owner, repo):
     url = f"https://api.github.com/repos/{owner}/{repo}/commits"
-    response = requests.get(url)
-
-    if response.status_code != 200:
-        print(f"Error: Unable to fetch commits. Status code: {response.status_code}")
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        print(f"Error: Unable to fetch latest commit. {e}")
         sys.exit(1)
 
     print(f"{'='*50}\nLatest Commit Details\n{'='*50}")
@@ -42,7 +43,10 @@ def fetch_issues(owner, repo, page_size):
         for issue in issues:
             print(f"Issue: {issue['title']}, Status: {issue['state']}")
 
-        url = response.links.get('next', {}).get('url')
+        if 'next' in response.links:
+            url = response.links['next']['url']
+        else:
+            break
 
 def fetch_pull_requests(owner, repo, page_size):
     url = f"https://api.github.com/repos/{owner}/{repo}/pulls"
@@ -54,8 +58,8 @@ def fetch_pull_requests(owner, repo, page_size):
     while url:
         response = requests.get(url, params=params)
         if response.status_code != 200:
-         print(f"Error: Unable to fetch pull requests. Status code: {response.status_code}")
-         sys.exit(1)
+            print(f"Error: Unable to fetch pull requests. Status code: {response.status_code}")
+            sys.exit(1)
 
         pulls = response.json()
         if not pulls:
@@ -65,6 +69,9 @@ def fetch_pull_requests(owner, repo, page_size):
         print(f"Fetching pull requests {pr_count - len(pulls) + 1}-{pr_count}...")
 
         for pr in pulls:
-         print(f"Pull Request: {pr['title']}, Status: {pr['state']}")
+            print(f"Pull Request: {pr['title']}, Status: {pr['state']}")
 
-        url = response.links.get('next', {}).get('url')
+        if 'next' in response.links:
+            url = response.links['next']['url']
+        else:
+            break
