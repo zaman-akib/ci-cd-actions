@@ -1,4 +1,4 @@
-from repo_info import *
+from repo_info import fetch_latest_commit, fetch_issues, fetch_pull_requests
 
 if __name__ == "__main__":
     OWNER = "jenkinsci"

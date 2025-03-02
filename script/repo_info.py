@@ -20,7 +20,9 @@ def fetch_latest_commit(owner, repo):
     author = latest_commit["commit"]["author"]["name"]
     date = latest_commit["commit"]["author"]["date"]
     print(
-        f"Latest Commit sha: {sha}\nMessage: {message}\nAuthor: {author}, Date: {date}\n"
+        f"Latest Commit sha: {sha}\n"
+        f"Message: {message}\n"
+        f"Author: {author}, Date: {date}\n"
     )
 
 
@@ -34,7 +36,10 @@ def fetch_issues(owner, repo, page_size):
     while url:
         response = requests.get(url, params=params)
         if response.status_code != 200:
-            print(f"Error: Unable to fetch issues. Status code: {response.status_code}")
+            print(
+                f"Error: Unable to fetch issues. "
+                f"Status code: {response.status_code}"
+            )
             sys.exit(1)
 
         issues = response.json()
@@ -64,7 +69,8 @@ def fetch_pull_requests(owner, repo, page_size):
         response = requests.get(url, params=params)
         if response.status_code != 200:
             print(
-                f"Error: Unable to fetch pull requests. Status code: {response.status_code}"
+                f"Error: Unable to fetch pull requests. "
+                f"Status code: {response.status_code}"
             )
             sys.exit(1)
 

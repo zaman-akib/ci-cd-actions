@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import patch, Mock
-from script.repo_info import *
+import requests
+from script.repo_info import fetch_issues, fetch_pull_requests, fetch_latest_commit
 
 
 class TestRepoInfo(unittest.TestCase):
@@ -23,7 +24,9 @@ class TestRepoInfo(unittest.TestCase):
         with patch("builtins.print") as mock_print:
             fetch_latest_commit("owner", "repo")
             mock_print.assert_any_call(
-                "Latest Commit sha: abc123\nMessage: Initial commit\nAuthor: John Doe, Date: 2023-01-01T00:00:00Z\n"
+                "Latest Commit sha: abc123\n"
+                "Message: Initial commit\n"
+                "Author: John Doe, Date: 2023-01-01T00:00:00Z\n"
             )
 
     @patch("requests.get")
